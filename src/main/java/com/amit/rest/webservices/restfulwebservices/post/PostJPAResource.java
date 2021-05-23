@@ -22,6 +22,10 @@ public class PostJPAResource {
     @Autowired
     private UserRepository userRepository;
 
+    @GetMapping("/jpa/posts/findall")
+    public List<Post> retrieveAllPosts() {
+        return postRepository.findAll();
+    }
 
     /**
      * Posts operations
