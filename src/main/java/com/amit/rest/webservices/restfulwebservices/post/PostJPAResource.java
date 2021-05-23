@@ -1,5 +1,6 @@
 package com.amit.rest.webservices.restfulwebservices.post;
 
+import com.amit.rest.webservices.restfulwebservices.customexceptions.PostNotFoundException;
 import com.amit.rest.webservices.restfulwebservices.customexceptions.UserNotFoundException;
 import com.amit.rest.webservices.restfulwebservices.user.User;
 import com.amit.rest.webservices.restfulwebservices.user.UserRepository;
@@ -22,11 +23,27 @@ public class PostJPAResource {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * @return List of all Posts
+     * */
     @GetMapping("/jpa/posts/findall")
     public List<Post> retrieveAllPosts() {
         return postRepository.findAll();
     }
 
+    /**
+     * @return Post by id
+     * */
+    @GetMapping("/jpa/posts/findone/{id}")
+    public Post retrieveOnePost(@PathVariable int id) {
+
+        Optional<Post> retrievePost = postRepository.findById(id);
+        if(!retrievePost.isPresent()) {
+            throw new PostNotFoundException("id-"+id+": user not found");
+        }
+
+        return retrievePost.get();
+    }
     /**
      * Posts operations
      * Create post for any user
