@@ -47,4 +47,11 @@ public class PostJPAResource {
 
         return ResponseEntity.created(location).build();
     }
+
+    @DeleteMapping("/jpa/posts/deleteone/{id}")
+    public ResponseEntity deleteOneUser(@PathVariable int id) {
+
+        postRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

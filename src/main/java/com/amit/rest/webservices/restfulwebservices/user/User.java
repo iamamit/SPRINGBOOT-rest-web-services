@@ -1,7 +1,6 @@
 package com.amit.rest.webservices.restfulwebservices.user;
 
 import com.amit.rest.webservices.restfulwebservices.post.Post;
-import io.swagger.annotations.ApiModel;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +11,6 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
-@ApiModel(description = "User Details")
 @Entity
 public class User {
 
