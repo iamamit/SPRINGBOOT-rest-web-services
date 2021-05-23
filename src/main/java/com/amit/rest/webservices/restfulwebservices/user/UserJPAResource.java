@@ -2,6 +2,7 @@ package com.amit.rest.webservices.restfulwebservices.user;
 
 import com.amit.rest.webservices.restfulwebservices.customexceptions.UserNotFoundException;
 import com.amit.rest.webservices.restfulwebservices.post.Post;
+import com.amit.rest.webservices.restfulwebservices.post.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,9 @@ public class UserJPAResource {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PostRepository postRepository;
 
 
     /**GET /users
@@ -46,7 +50,16 @@ public class UserJPAResource {
 
     @DeleteMapping("/jpa/users/deleteone/{id}")
     public ResponseEntity deleteOneUser(@PathVariable int id) {
+        // delete all posts first
+        Optional<User> userOptional = userRepository.findById(id);
+        User user = userOptional.get();
+        List<Post> posts = user.getPosts();
+        for(Post post:posts) {
+            Integer postId = post.getId();
+            postRepository.deleteById(postId);
+        }
 
+        // Now delete user
         userRepository.deleteById(id);
         //Deleted
         return ResponseEntity.noContent().build();
